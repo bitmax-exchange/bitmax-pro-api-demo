@@ -15,6 +15,7 @@
 # * installation: pip install sortedcontainers
 
 
+import os
 import click
 import json
 import websocket
@@ -26,8 +27,11 @@ except ImportError:
 from time import sleep
 from sortedcontainers import SortedDict
 from decimal import Decimal
-from bitmax.util.auth import *
 from functools import partial
+
+# Local imports 
+from util import *
+
 
 
 class OrderBook(object):
@@ -130,8 +134,11 @@ def on_open(ws, duration, prefix):
 @click.option("--symbol", type=str, default="BTC/USDT")
 @click.option("--duration", type=int, default=1000, help="how long should the program run (in seconds)")
 @click.option("--tag", type=str, default="", help="a tag to be printed for each message too boost readability")
-@click.option("--config", type=str, default="../config/config.json")
+@click.option("--config", type=str, default=None)
 def run(symbol, duration, tag, config):
+    if config is None:
+        config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
+        print(f"Config file is not specified, use {config}")
     btmxCfg = load_config(config)['bitmax']
 
     wss = btmxCfg['wss']

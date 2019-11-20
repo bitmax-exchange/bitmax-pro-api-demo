@@ -2,8 +2,10 @@ import click
 import requests
 from pprint import pprint
 
-from bitmax.util.auth import *
-from bitmax.rest.query_order import get_order_status
+# Local imports 
+from util import *
+from query_order import get_order_status
+
 
 BASE_METHOD = "order"
 BATCH_METHOD = f"{BASE_METHOD}/batch"
@@ -49,8 +51,11 @@ def place_batch_order(orders, api_key, secret, base_url, method=BATCH_METHOD):
 @click.option("--order_type", type=str, default="market")
 @click.option("--side", type=click.Choice(['buy', 'sell']), default='buy')
 @click.option("--resp_inst", type=click.Choice(['ACK', 'ACCEPT', 'DONE']), default="DONE")
-@click.option("--config", type=str, default="../config/config.json", help="path to the config file")
+@click.option("--config", type=str, default=None, help="path to the config file")
 def run(account, symbol, price, qty, order_type, side, resp_inst, config):
+    if config is None:
+        config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
+        print(f"Config file is not specified, use {config}")
     btmx_cfg = load_config(config)['bitmax']
 
     host = btmx_cfg['https']

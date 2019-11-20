@@ -6,15 +6,15 @@ import random, string
 
 
 def check_sys_version():
-  if not sys.version_info >= (3,5):
-    print("Error: Python 3.5+ required")
-    sys.exit(1)
+    if not sys.version_info >= (3,5):
+        print("Error: Python 3.5+ required")
+        sys.exit(1)
 
 
 
 def load_config(fname): 
-  with open(fname, "r") as config_file:
-    return json.load(config_file)
+    with open(fname, "r") as config_file:
+        return json.load(config_file)
 
 
 def uuid32():
@@ -22,7 +22,7 @@ def uuid32():
 
 
 def utc_timestamp():
-  return int(round(time.time() * 1e3))
+    return int(round(time.time() * 1e3))
 
 
 def sign(msg, secret):
@@ -34,34 +34,37 @@ def sign(msg, secret):
 
 
 def make_auth_headers(timestamp, path, apikey, secret, coid=None): 
-  # convert timestamp to string   
-  if isinstance(timestamp, bytes):
-    timestamp = timestamp.decode("utf-8")
-  elif isinstance(timestamp, int):
-    timestamp = str(timestamp)
-  if coid is None:
-    msg = f"{timestamp}+{path}"
-  else:
-    msg = f"{timestamp}+{path}+{coid}"
-  header = {
-    "x-auth-key": apikey,
-    "x-auth-signature": sign(msg, secret),
-    "x-auth-timestamp": timestamp,
-  }
-  if coid is not None:
-    header["x-auth-coid"] = coid
-  return header
+    # convert timestamp to string   
+    if isinstance(timestamp, bytes):
+        timestamp = timestamp.decode("utf-8")
+    elif isinstance(timestamp, int):
+        timestamp = str(timestamp)
+    
+    if coid is None:
+        msg = f"{timestamp}+{path}"
+    else:
+        msg = f"{timestamp}+{path}+{coid}"
+    
+    header = {
+        "x-auth-key": apikey,
+        "x-auth-signature": sign(msg, secret),
+        "x-auth-timestamp": timestamp,
+    }
+    
+    if coid is not None:
+        header["x-auth-coid"] = coid
+    return header
 
 
 def parse_response(res):
-  if res is None:
-    return None 
-  elif res.status_code == 200:
-    obj = json.loads(res.text)
-    return obj
-  else:
-    print(f"request failed, error code = {res.status_code}")
-    print(res.text)
+    if res is None:
+        return None 
+    elif res.status_code == 200:
+        obj = json.loads(res.text)
+        return obj
+    else:
+        print(f"request failed, error code = {res.status_code}")
+        print(res.text)
 
 
 def gen_server_order_id(account_id, symbol, side, cl_order_id, ts, order_src='a'):

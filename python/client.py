@@ -8,10 +8,13 @@ import numpy as np
 import time
 from urllib.parse import urlparse
 import uuid
-from bitmax.util.auth import make_auth_headers
 
 from autobahn.asyncio.websocket import WebSocketClientFactory
 from autobahn.asyncio.websocket import WebSocketClientProtocol
+
+# Local imports 
+from util import *
+
 
 #logger = log.get_logger()
 

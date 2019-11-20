@@ -1,7 +1,11 @@
+import os
 import click
 import requests
 from pprint import pprint
-from bitmax.util.auth import *
+
+# Local imports 
+from util import *
+
 
 
 def get_hist_orders(base_url, apikey, secret, symbol, start_time, end_time, order_type, side,
@@ -37,8 +41,11 @@ def get_order_status(base_url, apikey, secret, coid, method="order/status"):
 @click.option("--order_type", type=str, default=None)  # "market" or "limit"
 @click.option("--side", type=click.Choice(['buy', 'sell']), default=None)
 @click.option("--coid", type=str, default=None)
-@click.option("--config", type=str, default="../config/config.json", help="path to the config file")
+@click.option("--config", type=str, default=None, help="path to the config file")
 def run(account, symbol, start_time, end_time, order_type, side, config, coid):
+    if config is None:
+        config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
+        print(f"Config file is not specified, use {config}")
     btmx_cfg = load_config(config)['bitmax']
 
     host = btmx_cfg['https']

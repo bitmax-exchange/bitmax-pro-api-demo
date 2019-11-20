@@ -12,7 +12,9 @@ import click
 from autobahn.asyncio.websocket import WebSocketClientFactory
 from autobahn.asyncio.websocket import WebSocketClientProtocol
 
-from bitmax.util.auth import *
+# Local imports 
+from util import *
+
 
 SUCCESS = 0
 
@@ -108,8 +110,11 @@ class Client(WebSocketClientFactory):
 
 
 @click.command()
-@click.option("--config", type=str, default="config.json")
+@click.option("--config", type=str, default=None)
 def run(config):
+    if config is None:
+        config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
+        print(f"Config file is not specified, use {config}")
     btmxCfg = load_config(config)['bitmax']
 
     host = btmxCfg['https']

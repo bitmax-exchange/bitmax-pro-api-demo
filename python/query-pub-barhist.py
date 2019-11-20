@@ -1,7 +1,9 @@
 import click
 import requests
 from pprint import pprint
-from util.auth import *
+
+# Local imports 
+from util import *
 
 
 @click.command()
@@ -10,8 +12,11 @@ from util.auth import *
 @click.option("--frm", type=int)
 @click.option("--to", type=int)
 @click.option("--n", type=int, default=10)
-@click.option("--config", type=str, default="config.json")
+@click.option("--config", type=str, default=None)
 def run(symbol, interval, frm, to, n, config):
+    if config is None:
+        config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
+        print(f"Config file is not specified, use {config}")
   btmxCfg = load_config(config)['bitmax']
 
   host   = btmxCfg['https']

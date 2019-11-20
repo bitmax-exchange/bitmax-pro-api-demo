@@ -1,7 +1,9 @@
 import click
 import requests
 from pprint import pprint
-from bitmax.util.auth import *
+
+# Local imports 
+from util import *
 
 
 def cancel_order(order, apikey, secret, base_url, method="order"):
@@ -59,9 +61,12 @@ def test_cancel_batch_order(api_key, secret, base_url):
 @click.option("--order-id", type=str, default=None, help="order id (provided by server when placing order) to cancel")
 @click.option("--symbol", type=str, default='BTC/USDT')
 @click.option("--resp-inst", type=click.Choice(['ACK', 'ACCEPT', 'DONE']), default="ACK")
+@click.option("--config", type=str, default=None, help="path to the config file")
 @click.option("--cancel_all", type=bool, default=False, help="set cancel_all to be true to cancel all")
-@click.option("--config", type=str, default="../config/config.json", help="path to the config file")
 def run(account, order_id, symbol, resp_inst, config, cancel_all):
+    if config is None:
+        config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
+        print(f"Config file is not specified, use {config}")
     btmx_cfg = load_config(config)['bitmax']
 
     host = btmx_cfg['https']
