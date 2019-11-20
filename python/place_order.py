@@ -1,3 +1,4 @@
+import os
 import click
 import requests
 from pprint import pprint
