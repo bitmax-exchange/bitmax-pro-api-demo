@@ -1,0 +1,9 @@
+{
+  "bitmax": {
+    "https": "https://gdmx.com",
+    "wss": "wss://gdmx.com:443",
+    "group": 0,
+    "apikey": "BclE7dBGbS1AP3VnOuq6s8fJH0fWbH7r",
+    "secret": "fAZcQRUMxj3eX3DreIjFcPiJ9UR3ZTdgIw8mxddvtcDxLoXvdbXJuFQYadUUsF7q"
+  }
+}
