@@ -22,7 +22,7 @@ def run(config):
     secret = btmx_cfg['secret']
 
     ts = utc_timestamp()
-    headers = make_auth_headers(ts, "risk", apikey, secret)
+    headers = make_auth_headers(ts, "margin/risk", apikey, secret)
     url = f"{host}/{group}/api/pro/margin/risk"
 
     res = requests.get(url, headers=headers)
