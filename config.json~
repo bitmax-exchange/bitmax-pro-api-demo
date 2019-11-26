@@ -1,0 +1,9 @@
+{
+  "bitmax": {
+    "https": "http://localhost:9100",
+    "wss": "wss://bitmax.io:443",
+    "group": 0,
+    "apikey": "kI9bKLlwgas9WP13Q5WXSAxlAmQPG22q",
+    "secret": "8nR4KcNgzaGSJ7C3gvWKncWsVRetZRtZGYRNmySEFmQWrwbdmRjgU6aTULUiukVw"
+  }
+}

@@ -16,7 +16,7 @@ def place_order(order, apikey, secret, base_url, method):
     url = "{}/{}".format(base_url, method)
     ts = utc_timestamp()
     coid = order['coid']
-    headers = make_auth_headers(ts, method, apikey, secret, coid=coid)
+    headers = make_auth_headers(ts, method, apikey, secret)
     return requests.post(url, headers=headers, json=order)
 
 
@@ -83,7 +83,7 @@ def run(account, symbol, price, qty, order_type, side, resp_inst, config):
         respInst=resp_inst,
     )
 
-    print("Place order {}".format(order))
+    print("Place order {} through {}".format(order, base_url))
     res = place_order(order, apikey=apikey, secret=secret, base_url=base_url, method="order")
     pprint(parse_response(res))
 
@@ -93,8 +93,7 @@ def run(account, symbol, price, qty, order_type, side, resp_inst, config):
         coid = order["coid"]
         server_coid = gen_server_order_id(account_id, symbol=order["symbol"], side=order["side"], cl_order_id=coid,
                                           ts=order["time"], order_src='a')
-        print(f"{server_coid}")
-        print(base_url)
+        print(f"server_coid = {server_coid}")
         res = get_order_status(base_url, apikey, secret, server_coid)
         pprint(parse_response(res))
 
