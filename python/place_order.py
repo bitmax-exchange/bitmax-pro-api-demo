@@ -51,7 +51,7 @@ def place_batch_order(orders, api_key, secret, base_url, method=BATCH_METHOD):
 @click.option("--qty", type=str, default='0.1')
 @click.option("--order_type", type=str, default="market")
 @click.option("--side", type=click.Choice(['buy', 'sell']), default='buy')
-@click.option("--resp_inst", type=click.Choice(['ACK', 'ACCEPT', 'DONE']), default="DONE")
+@click.option("--resp-inst", type=click.Choice(['ACK', 'ACCEPT', 'DONE']), default="ACCEPT")
 @click.option("--config", type=str, default=None, help="path to the config file")
 def run(account, symbol, price, qty, order_type, side, resp_inst, config):
     if config is None:
