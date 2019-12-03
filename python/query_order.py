@@ -7,7 +7,6 @@ from pprint import pprint
 from util import *
 
 
-
 def get_hist_orders(base_url, apikey, secret, symbol, start_time, end_time, order_type, side,
                     method="order/hist/current"):
     ts = utc_timestamp()
@@ -40,13 +39,11 @@ def get_order_status(base_url, apikey, secret, coid, method="order/status"):
 @click.option("--end_time", type=int, default=utc_timestamp())
 @click.option("--order_type", type=str, default=None)  # "market" or "limit"
 @click.option("--side", type=click.Choice(['buy', 'sell']), default=None)
-@click.option("--coid", type=str, default=None)
-@click.option("--config", type=str, default=None, help="path to the config file")
+@click.option("--order_id", type=str, default=None)
+@click.option("--config", type=str, default="config.json", help="path to the config file")
 def run(account, symbol, start_time, end_time, order_type, side, config, coid):
-    if config is None:
-        config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
-        print(f"Config file is not specified, use {config}")
-    btmx_cfg = load_config(config)['bitmax']
+
+    btmx_cfg = load_config(get_config_or_default(config))['bitmax']
 
     host = btmx_cfg['https']
     group = btmx_cfg['group']
@@ -64,10 +61,10 @@ def run(account, symbol, start_time, end_time, order_type, side, config, coid):
     res = get_open_orders(base_url, apikey, secret, None)
     pprint(parse_response(res))
 
-    if coid is not None:
+    if order_id is not None:
         print("\n ****** \n")
-        print(f"Query status for order {coid}")
-        res = get_order_status(base_url, apikey, secret, coid)
+        print(f"Query status for order {order_id}")
+        res = get_order_status(base_url, apikey, secret, order_id)
         pprint(parse_response(res))
 
 
