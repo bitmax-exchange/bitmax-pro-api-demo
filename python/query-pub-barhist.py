@@ -18,25 +18,23 @@ def run(symbol, interval, frm, to, n, config):
     if config is None:
         config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
         print(f"Config file is not specified, use {config}")
-  btmxCfg = load_config(config)['bitmax']
+    btmxCfg = load_config(config)['bitmax']
 
-  host   = btmxCfg['https']
+    host = btmxCfg['https']
   
-  url = f"{host}/api/pro/barhist"
-  params = {
-    "symbol":   symbol,
-    "interval": interval,
-    "n":        n,
-    "from":     frm,
-    "to":       to,
-  }
+    url = f"{host}/api/pro/barhist"
+    params = {
+        "symbol":   symbol,
+        "interval": interval,
+        "n":        n,
+        "from":     frm,
+        "to":       to,
+    }
 
-  print(url)
-  res = requests.get(url, params = params)
-  pprint(parse_response(res))
+    print(url)
+    res = requests.get(url, params = params)
+    pprint(parse_response(res))
 
 
 if __name__ == "__main__": 
-  run()  
-
-
+    run()  

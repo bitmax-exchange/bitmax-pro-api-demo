@@ -1,0 +1,9 @@
+{
+  "bitmax": {
+    "https": "http://localhost:9100",
+    "wss": "ws://localhost:9100",
+    "group": 1,
+    "apikey": "eUDABIGJ4blFP2MXML6ZSR63oPNj92G3",
+    "secret": "hGrk76qJdMiLVrmQbPMCLhdey5XmU5Ubs7HuIpgD7KFubj3QMGzCvomGbiy7Y43h"
+  }
+}
