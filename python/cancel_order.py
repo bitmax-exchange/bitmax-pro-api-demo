@@ -74,7 +74,8 @@ def run(account, order_id, symbol, resp_inst, config, cancel_all):
     base_url = f"{host}/{group}/api/pro/{account}"
 
     if cancel_all:
-        cancel_all_order(symbol, apikey, secret, base_url)
+        res = cancel_all_order(symbol, apikey, secret, base_url)
+        pprint(parse_response(res))
 
     else:
         ts = utc_timestamp()
