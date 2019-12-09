@@ -48,7 +48,7 @@ def place_batch_order(orders, api_key, secret, base_url, method=BATCH_METHOD):
 @click.option("--symbol", type=str, default='BTC/USDT')
 @click.option("--price", type=str, default='7289.0')
 @click.option("--qty", type=str, default='0.00082')
-@click.option("--order_type", type=str, default="market")
+@click.option("--order-type", type=str, default="market")
 @click.option("--side", type=click.Choice(['buy', 'sell']), default='buy')
 @click.option("--resp-inst", type=click.Choice(['ACK', 'ACCEPT', 'DONE']), default="ACCEPT")
 @click.option("--config", type=str, default="config.json", help="path to the config file")
