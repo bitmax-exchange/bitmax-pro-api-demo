@@ -7,17 +7,14 @@ from pprint import pprint
 from util import *
 
 
-
 @click.command()
 @click.option("--symbol", type=str,
               help="If not provided, return tickers of all symbols. You can provide one or more symbols, "
                    "use comma to separate multiple symbols.")
-@click.option("--config", type=str, default=None)
+@click.option("--config", type=str, default="config.json")
 def run(symbol, config):
-    if config is None:
-        config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
-        print(f"Config file is not specified, use {config}")
-    btmxCfg = load_config(config)['bitmax']
+
+    btmxCfg = load_config(get_config_or_default(config))['bitmax']
 
     host = btmxCfg['https']
 

@@ -15,7 +15,6 @@ BATCH_METHOD = f"{BASE_METHOD}/batch"
 def place_order(order, apikey, secret, base_url, method):
     url = "{}/{}".format(base_url, method)
     ts = utc_timestamp()
-    coid = order['coid']
     headers = make_auth_headers(ts, method, apikey, secret)
     return requests.post(url, headers=headers, json=order)
 
@@ -47,33 +46,31 @@ def place_batch_order(orders, api_key, secret, base_url, method=BATCH_METHOD):
 @click.command()
 @click.option("--account", type=click.Choice(['cash', 'margin']), default="cash")
 @click.option("--symbol", type=str, default='BTC/USDT')
-@click.option("--price", type=str, default='9500')
-@click.option("--qty", type=str, default='0.1')
+@click.option("--price", type=str, default='7289.0')
+@click.option("--qty", type=str, default='0.00082')
 @click.option("--order_type", type=str, default="market")
 @click.option("--side", type=click.Choice(['buy', 'sell']), default='buy')
-@click.option("--resp_inst", type=click.Choice(['ACK', 'ACCEPT', 'DONE']), default="DONE")
-@click.option("--config", type=str, default=None, help="path to the config file")
+@click.option("--resp-inst", type=click.Choice(['ACK', 'ACCEPT', 'DONE']), default="ACCEPT")
+@click.option("--config", type=str, default="config.json", help="path to the config file")
 def run(account, symbol, price, qty, order_type, side, resp_inst, config):
-    if config is None:
-        config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
-        print(f"Config file is not specified, use {config}")
-    btmx_cfg = load_config(config)['bitmax']
+
+    btmx_cfg = load_config(get_config_or_default(config))['bitmax']
 
     host = btmx_cfg['https']
     group = btmx_cfg['group']
     apikey = btmx_cfg['apikey']
     secret = btmx_cfg['secret']
 
-    if "account_id" in btmx_cfg:
-        account_id = btmx_cfg["account_id"]
+    if "user_uid" in btmx_cfg:
+        user_uid = btmx_cfg["account_id"]
     else:
-        account_id = None
+        user_uid = None
 
     base_url = f"{host}/{group}/api/pro/{account}"
 
     ts = utc_timestamp()
     order = dict(
-        coid=uuid32(),
+        id=uuid32(),
         time=ts,
         symbol=symbol.replace("-", "/"),
         orderPrice=str(price),
@@ -88,11 +85,10 @@ def run(account, symbol, price, qty, order_type, side, resp_inst, config):
     pprint(parse_response(res))
 
     # query order status
-    if account_id is not None:
+    if user_uid is not None:
         time.sleep(1)
-        coid = order["coid"]
-        server_coid = gen_server_order_id(account_id, symbol=order["symbol"], side=order["side"], cl_order_id=coid,
-                                          ts=order["time"], order_src='a')
+        cl_id = order["id"]
+        server_coid = gen_server_order_id(user_uid, cl_order_id=cl_id, ts=order["time"], order_src='a')
         print(f"server_coid = {server_coid}")
         res = get_order_status(base_url, apikey, secret, server_coid)
         pprint(parse_response(res))

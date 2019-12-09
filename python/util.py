@@ -1,3 +1,4 @@
+import os
 import sys
 import json
 import time
@@ -33,26 +34,21 @@ def sign(msg, secret):
     return signature_b64
 
 
-def make_auth_headers(timestamp, path, apikey, secret, coid=None): 
+def make_auth_headers(timestamp, path, apikey, secret):
     # convert timestamp to string   
     if isinstance(timestamp, bytes):
         timestamp = timestamp.decode("utf-8")
     elif isinstance(timestamp, int):
         timestamp = str(timestamp)
-    
-    if coid is None:
-        msg = f"{timestamp}+{path}"
-    else:
-        msg = f"{timestamp}+{path}+{coid}"
+
+    msg = f"{timestamp}+{path}"
     
     header = {
         "x-auth-key": apikey,
         "x-auth-signature": sign(msg, secret),
         "x-auth-timestamp": timestamp,
     }
-    
-    if coid is not None:
-        header["x-auth-coid"] = coid
+
     return header
 
 
@@ -67,17 +63,21 @@ def parse_response(res):
         print(res.text)
 
 
-def gen_server_order_id(account_id, symbol, side, cl_order_id, ts, order_src='a'):
+def get_config_or_default(config):
+    if config is None or not os.path.isfile(config):
+        config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
+        print(f"Config file is not specified, use {config}")
+
+    return config
+
+def gen_server_order_id(user_uid, cl_order_id, ts, order_src='a'):
     """
     Server order generator based on user info and input.
-    :param account_id: account id
-    :param symbol: product symbol
-    :param side: buy or sell
+    :param user_uid: user uid
     :param cl_order_id: user random digital and number id
-    :param ts: order timestamp
+    :param ts: order timestamp in milliseconds
     :param order_src: 'a' for rest api order, 's' for websocket order.
     :return: order id of length 32
     """
-    h = hashlib.new("md5")
-    h.update((str(ts) + account_id + symbol + side[0].lower() + cl_order_id).encode("utf-8"))
-    return (format(ts, 'x')[:11] + order_src + account_id[-12:] + h.hexdigest())[:32]
+
+    return (order_src + format(ts, 'x')[-11:] + user_uid[-11:] + cl_order_id[-9:])[:32]
