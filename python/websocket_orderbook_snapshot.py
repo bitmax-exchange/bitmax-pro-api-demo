@@ -134,7 +134,7 @@ def on_open(ws, duration, prefix):
 @click.option("--symbol", type=str, default="BTC/USDT")
 @click.option("--duration", type=int, default=1000, help="how long should the program run (in seconds)")
 @click.option("--tag", type=str, default="", help="a tag to be printed for each message too boost readability")
-@click.option("--config", type=str, default=None)
+@click.option("--config", type=str, default="config.json")
 def run(symbol, duration, tag, config):
     if config is None:
         config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")

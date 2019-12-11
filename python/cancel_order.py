@@ -57,11 +57,11 @@ def test_cancel_batch_order(api_key, secret, base_url):
 
 @click.command()
 @click.option("--account", type=click.Choice(['cash', 'margin']), default="cash")
-@click.option("--order-id", type=str, default=None, help="order id (provided by server when placing order) to cancel")
+@click.option("--order-id", type=str, default="a16ef5d5de48U9490877774NG1IhX3jK", help="order id (provided by server when placing order) to cancel")
 @click.option("--symbol", type=str, default='BTC/USDT')
 @click.option("--resp-inst", type=click.Choice(['ACK', 'ACCEPT', 'DONE']), default="ACCEPT")
-@click.option("--config", type=str, default="config.json", help="path to the config file")
 @click.option("--cancel-all", type=bool, default=False, help="set cancel_all to be true to cancel all")
+@click.option("--config", type=str, default="config.json", help="path to the config file")
 def run(account, order_id, symbol, resp_inst, config, cancel_all):
 
     btmx_cfg = load_config(get_config_or_default(config))['bitmax']
