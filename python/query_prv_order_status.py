@@ -11,7 +11,7 @@ from util import *
 @click.command()
 @click.option("--symbol", type=str, default=None)
 @click.option("--account", type=click.Choice(['cash', 'margin']), default="cash", help="account category")
-@click.option("--order-id", type=str, default=None)
+@click.option("--order_id", type=str, default=None)
 @click.option("--config", type=str, default="config.json", help="path to the config file")
 def run(symbol, account, order_id, config):
 
