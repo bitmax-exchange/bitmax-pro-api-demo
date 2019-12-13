@@ -66,7 +66,7 @@ def run(account, symbol, price, qty, order_type, side, resp_inst, config):
     else:
         user_uid = None
 
-    base_url = f"{host}/{group}/api/pro/{account}"
+    base_url = f"{host}/{group}/{ROUTE_PREFIX}/{account}"
 
     ts = utc_timestamp()
     order = dict(

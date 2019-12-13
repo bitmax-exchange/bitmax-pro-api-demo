@@ -24,7 +24,7 @@ def run(symbol, account, order_id, config):
 
     ts = utc_timestamp()
     headers = make_auth_headers(ts, "order/status", apikey, secret)
-    url = f"{host}/{group}/api/pro/{account}/order/status/{order_id}"
+    url = f"{host}/{group}/{ROUTE_PREFIX}/{account}/order/status/{order_id}"
 
     print(f"Using url: {url}")
 

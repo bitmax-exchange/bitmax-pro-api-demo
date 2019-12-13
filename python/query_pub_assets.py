@@ -18,7 +18,7 @@ def run(config):
 
     host = btmx_cfg['https']
 
-    url = f"{host}/api/pro/assets"
+    url = f"{host}/{ROUTE_PREFIX}/assets"
 
     print(f"Using url: {url}")
 

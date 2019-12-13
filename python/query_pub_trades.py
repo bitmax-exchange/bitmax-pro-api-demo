@@ -17,7 +17,7 @@ def run(symbol, n, config):
 
     host = btmx_cfg['https']
 
-    url = f"{host}/api/pro/trades"
+    url = f"{host}/{ROUTE_PREFIX}/trades"
     params = dict(symbol=symbol, n=n)
 
     res = requests.get(url, params=params)

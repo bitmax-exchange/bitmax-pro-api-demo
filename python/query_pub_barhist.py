@@ -22,7 +22,7 @@ def run(symbol, interval, frm, to, n, config):
 
     host = btmxCfg['https']
   
-    url = f"{host}/api/pro/barhist"
+    url = f"{host}/{ROUTE_PREFIX}/barhist"
     params = {
         "symbol":   symbol,
         "interval": interval,

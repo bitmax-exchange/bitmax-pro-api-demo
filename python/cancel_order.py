@@ -71,7 +71,7 @@ def run(account, order_id, symbol, resp_inst, config, cancel_all):
     apikey = btmx_cfg['apikey']
     secret = btmx_cfg['secret']
 
-    base_url = f"{host}/{group}/api/pro/{account}"
+    base_url = f"{host}/{group}/{ROUTE_PREFIX}/{account}"
 
     if cancel_all:
         res = cancel_all_order(symbol, apikey, secret, base_url)

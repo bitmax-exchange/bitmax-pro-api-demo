@@ -50,7 +50,7 @@ def run(account, symbol, start_time, end_time, order_type, side, config, order_i
     apikey = btmx_cfg['apikey']
     secret = btmx_cfg['secret']
 
-    base_url = f"{host}/{group}/api/pro/{account}"
+    base_url = f"{host}/{group}/{ROUTE_PREFIX}/{account}"
 
     print("Get history orders")
     res = get_hist_orders(base_url, apikey, secret, symbol, start_time, end_time, order_type=order_type, side=side)

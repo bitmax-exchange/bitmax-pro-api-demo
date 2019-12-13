@@ -23,7 +23,7 @@ def run(asset, account, config):
 
     ts = utc_timestamp()
     headers = make_auth_headers(ts, "balance", apikey, secret)
-    url = f"{host}/{group}/api/pro/{account}/balance"
+    url = f"{host}/{group}/{ROUTE_PREFIX}/{account}/balance"
     print(f"url = {url}")
 
     params = dict(asset=asset)

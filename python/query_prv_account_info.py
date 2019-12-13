@@ -20,7 +20,7 @@ def run(config):
 
     ts = utc_timestamp()
     headers = make_auth_headers(ts, "info", apikey, secret)
-    url = f"{host}/api/pro/info"
+    url = f"{host}/{ROUTE_PREFIX}/info"
 
     print(f"Using url: {url}")
 

@@ -18,7 +18,7 @@ def run(symbol, config):
 
     host = btmxCfg['https']
 
-    url = f"{host}/api/pro/ticker"
+    url = f"{host}/{ROUTE_PREFIX}/ticker"
     params = dict(symbol=symbol)
     print(url)
     print(params)

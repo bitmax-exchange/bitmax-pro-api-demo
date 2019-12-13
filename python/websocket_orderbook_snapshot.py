@@ -144,7 +144,7 @@ def run(symbol, duration, tag, config):
     wss = btmxCfg['wss']
     grp = btmxCfg['group']
 
-    url = f"{wss}/{grp}/api/pro/stream"
+    url = f"{wss}/{grp}/{ROUTE_PREFIX}/stream"
     print(f"connecting to {url}, symbol {symbol}")
 
     prefix = f"[{tag}] " if tag != "" else ""
