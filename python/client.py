@@ -22,7 +22,7 @@ GROUP_ID = 1
 API_KEY = "BclE7dBGbS1AP3VnOuq6s8fJH0fWbH7r"
 SECRET = "fAZcQRUMxj3eX3DreIjFcPiJ9UR3ZTdgIw8mxddvtcDxLoXvdbXJuFQYadUUsF7q"
 
-SANDBOX_URL = f"wss://bitmax-test.io:443/{GROUP_ID}/api/pro/stream"
+SANDBOX_URL = f"wss://bitmax-test.io:443/{GROUP_ID}/{ROUTE_PREFIX}/stream"
 
 Channels = ['order', 'trades', 'ref-px', 'bar', 'summary', 'depth', 'bbo']
 
@@ -219,18 +219,9 @@ class Client(WebSocketClientFactory):
 
     def get_products(self):
         """ get exchange supported product list
-        TODO: fake now
+        TODO: fake now. Refer to query_pub_products.py
         """
-        return {
-            'BTC/USDT': 9038.0,
-            'BTMX/USDT': 0.068751,
-            'ETH/USDT': 215.19,
-            'ETC/USDT': 4.5819,
-            'PAX/USDT': 1.0,
-            'EOS/USDT': 10.0,
-            'XRP/USDT': 0.23,
-            'ETH/BTC': 0.021911
-        }.keys()
+        return ['BTC/USDT', 'BTMX/USDT', 'ETH/USDT', 'ETC/USDT', 'PAX/USDT', 'EOS/USDT', 'XRP/USDT', 'ETH/BTC']
 
     def get_channels(self):
         """ get all supported sub/unsub channels """

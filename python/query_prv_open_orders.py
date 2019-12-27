@@ -23,7 +23,7 @@ def run(symbol, account, config):
 
     ts = utc_timestamp()
     headers = make_auth_headers(ts, "order/open", apikey, secret)
-    url = f"{host}/{group}/api/pro/{account}/order/open"
+    url = f"{host}/{group}/{ROUTE_PREFIX}/{account}/order/open"
 
     params = dict(symbol=symbol)
 

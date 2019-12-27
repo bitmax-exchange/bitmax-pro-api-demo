@@ -11,7 +11,7 @@ from util import *
 @click.command()
 @click.option("--symbol", type=str, default=None)
 @click.option("--account", type=click.Choice(['cash', 'margin']), default="cash", help="account category")
-@click.option("--order-id", type=str, default=None)
+@click.option("--order_id", type=str, default=None)
 @click.option("--config", type=str, default="config.json", help="path to the config file")
 def run(symbol, account, order_id, config):
 
@@ -24,7 +24,7 @@ def run(symbol, account, order_id, config):
 
     ts = utc_timestamp()
     headers = make_auth_headers(ts, "order/status", apikey, secret)
-    url = f"{host}/{group}/api/pro/{account}/order/status/{order_id}"
+    url = f"{host}/{group}/{ROUTE_PREFIX}/{account}/order/status/{order_id}"
 
     print(f"Using url: {url}")
 

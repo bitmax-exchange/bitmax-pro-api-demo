@@ -24,12 +24,12 @@ def get_open_orders(base_url, apikey, secret, symbol, method="order/open"):
     return requests.get(url, headers=headers, params=params)
 
 
-def get_order_status(base_url, apikey, secret, coid, method="order/status"):
-    url = "{}/{}/{}".format(base_url, method, coid)
+def get_order_status(base_url, apikey, secret, order_id, method="order/status"):
+    url = "{}/{}".format(base_url, method, order_id)
     print(url)
     ts = utc_timestamp()
     headers = make_auth_headers(ts, method, apikey, secret)
-    return requests.get(url, headers=headers)
+    return requests.get(url, headers=headers, params={"orderId": order_id})
 
 
 @click.command()
@@ -40,8 +40,8 @@ def get_order_status(base_url, apikey, secret, coid, method="order/status"):
 @click.option("--order_type", type=str, default=None)  # "market" or "limit"
 @click.option("--side", type=click.Choice(['buy', 'sell']), default=None)
 @click.option("--order_id", type=str, default=None)
-@click.option("--config", type=str, default="config.json", help="path to the config file")
-def run(account, symbol, start_time, end_time, order_type, side, config, coid):
+@click.option("--config", type=str, default="config_local.json", help="path to the config file")
+def run(account, symbol, start_time, end_time, order_type, side, config, order_id):
 
     btmx_cfg = load_config(get_config_or_default(config))['bitmax']
 
@@ -50,7 +50,7 @@ def run(account, symbol, start_time, end_time, order_type, side, config, coid):
     apikey = btmx_cfg['apikey']
     secret = btmx_cfg['secret']
 
-    base_url = f"{host}/{group}/api/pro/{account}"
+    base_url = f"{host}/{group}/{ROUTE_PREFIX}/{account}"
 
     print("Get history orders")
     res = get_hist_orders(base_url, apikey, secret, symbol, start_time, end_time, order_type=order_type, side=side)

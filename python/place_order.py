@@ -46,11 +46,11 @@ def place_batch_order(orders, api_key, secret, base_url, method=BATCH_METHOD):
 @click.command()
 @click.option("--account", type=click.Choice(['cash', 'margin']), default="cash")
 @click.option("--symbol", type=str, default='BTC/USDT')
-@click.option("--price", type=str, default='7289.0')
+@click.option("--price", type=str, default='7000.0')
 @click.option("--qty", type=str, default='0.00082')
-@click.option("--order-type", type=str, default="market")
+@click.option("--order_type", type=str, default="limit")
 @click.option("--side", type=click.Choice(['buy', 'sell']), default='buy')
-@click.option("--resp-inst", type=click.Choice(['ACK', 'ACCEPT', 'DONE']), default="ACCEPT")
+@click.option("--resp_inst", type=click.Choice(['ACK', 'ACCEPT', 'DONE']), default="ACCEPT")
 @click.option("--config", type=str, default="config.json", help="path to the config file")
 def run(account, symbol, price, qty, order_type, side, resp_inst, config):
 
@@ -62,11 +62,11 @@ def run(account, symbol, price, qty, order_type, side, resp_inst, config):
     secret = btmx_cfg['secret']
 
     if "user_uid" in btmx_cfg:
-        user_uid = btmx_cfg["account_id"]
+        user_uid = btmx_cfg["user_uid"]
     else:
         user_uid = None
 
-    base_url = f"{host}/{group}/api/pro/{account}"
+    base_url = f"{host}/{group}/{ROUTE_PREFIX}/{account}"
 
     ts = utc_timestamp()
     order = dict(

@@ -20,7 +20,7 @@ def run(config):
 
     ts = utc_timestamp()
     headers = make_auth_headers(ts, "margin/risk", apikey, secret)
-    url = f"{host}/{group}/api/pro/margin/risk"
+    url = f"{host}/{group}/{ROUTE_PREFIX}/margin/risk"
 
     res = requests.get(url, headers=headers)
     pprint(parse_response(res))

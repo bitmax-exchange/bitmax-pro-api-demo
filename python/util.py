@@ -5,6 +5,7 @@ import time
 import hmac, hashlib, base64
 import random, string
 
+ROUTE_PREFIX = "api/pro/v1"
 
 def check_sys_version():
     if not sys.version_info >= (3,5):

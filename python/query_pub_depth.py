@@ -16,7 +16,7 @@ def run(symbol, config):
 
     host = btmx_cfg['https']
 
-    url = f"{host}/api/pro/depth"
+    url = f"{host}/{ROUTE_PREFIX}/depth"
     params = dict(symbol=symbol)
 
     print(url)

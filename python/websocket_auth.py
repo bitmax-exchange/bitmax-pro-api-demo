@@ -122,7 +122,7 @@ def run(config):
     apikey = btmxCfg['apikey']
     secret = btmxCfg['secret']
 
-    url = f"{host}/{group}/api/pro/stream"
+    url = f"{host}/{group}/{ROUTE_PREFIX}/stream"
 
     loop = asyncio.get_event_loop()
 

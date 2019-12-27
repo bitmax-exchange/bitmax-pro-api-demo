@@ -9,7 +9,7 @@ from util import *
 
 
 @click.command()
-@click.option("--config", type=str, default=None)
+@click.option("--config", type=str, default="config.json")
 def run(config):
     if config is None:
         config = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
@@ -18,7 +18,7 @@ def run(config):
 
     host = btmx_cfg['https']
 
-    url = f"{host}/api/pro/assets"
+    url = f"{host}/{ROUTE_PREFIX}/assets"
 
     print(f"Using url: {url}")
 
