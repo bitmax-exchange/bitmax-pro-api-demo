@@ -22,19 +22,6 @@ def cancel_batch_order(orders, apikey, secret, base_url, method="order/batch"):
     return requests.delete(url, headers=headers, json=batch_order)
 
 
-def cancel_all_order(symbol, apikey, secret, base_url, method="order/all"):
-    print(f"cancel all ${symbol}")
-    if symbol is not None:
-        params = {"symbol": symbol}
-    else:
-        params = {}
-
-    url = "{}/{}".format(base_url, method)
-    ts = utc_timestamp()
-    headers = make_auth_headers(ts, method, apikey, secret)
-    return requests.delete(url, headers=headers, params=params)
-
-
 def test_cancel_batch_order(api_key, secret, base_url):
     ts = utc_timestamp()
     order1 = dict(
@@ -60,9 +47,8 @@ def test_cancel_batch_order(api_key, secret, base_url):
 @click.option("--order_id", type=str, default="a16ef5d5de48U9490877774NG1IhX3jK", help="order id (provided by server when placing order) to cancel")
 @click.option("--symbol", type=str, default='BTC/USDT')
 @click.option("--resp_inst", type=click.Choice(['ACK', 'ACCEPT', 'DONE']), default="ACCEPT")
-@click.option("--cancel_all", type=bool, default=False, help="set cancel_all to be true to cancel all")
 @click.option("--config", type=str, default="config.json", help="path to the config file")
-def run(account, order_id, symbol, resp_inst, config, cancel_all):
+def run(account, order_id, symbol, resp_inst, config):
 
     btmx_cfg = load_config(get_config_or_default(config))['bitmax']
 
@@ -73,23 +59,18 @@ def run(account, order_id, symbol, resp_inst, config, cancel_all):
 
     base_url = f"{host}/{group}/{ROUTE_PREFIX}/{account}"
 
-    if cancel_all:
-        res = cancel_all_order(symbol, apikey, secret, base_url)
-        pprint(parse_response(res))
+    ts = utc_timestamp()
+    order = dict(
+        id=uuid32(),
+        orderId=order_id,
+        time=ts,
+        symbol=symbol.replace("-", "/"),
+        respInst=resp_inst,
+    )
 
-    else:
-        ts = utc_timestamp()
-        order = dict(
-            id=uuid32(),
-            orderId=order_id,
-            time=ts,
-            symbol=symbol.replace("-", "/"),
-            respInst=resp_inst,
-        )
-
-        print("Cancel order {}".format(order))
-        res = cancel_order(order, apikey=apikey, secret=secret, base_url=base_url, method="order")
-        pprint(parse_response(res))
+    print("Cancel order {}".format(order))
+    res = cancel_order(order, apikey=apikey, secret=secret, base_url=base_url, method="order")
+    pprint(parse_response(res))
 
 
 if __name__ == "__main__":
