@@ -13,7 +13,8 @@ from util import *
 @click.option("--account", type=click.Choice(['cash', 'margin']), default="cash", help="account category")
 @click.option("--order_id", type=str, default=None)
 @click.option("--config", type=str, default="config.json", help="path to the config file")
-def run(symbol, account, order_id, config):
+@click.option("--verbose/--no-verbose", default=False)
+def run(symbol, account, order_id, config, verbose):
 
     btmx_cfg = load_config(get_config_or_default(config))['bitmax']
 
@@ -25,11 +26,14 @@ def run(symbol, account, order_id, config):
     ts = utc_timestamp()
     headers = make_auth_headers(ts, "order/status", apikey, secret)
     url = f"{host}/{group}/{ROUTE_PREFIX}/{account}/order/status/{order_id}"
+    params = dict(orderId = order_id)
 
-    print(f"Using url: {url}")
+    if verbose:
+        print(f"Using url: {url}")
+        print(f"params: {params}")
 
-    res = requests.get(url, headers=headers)
-    pprint(res.headers)
+
+    res = requests.get(url, headers=headers, params=params)
     pprint(parse_response(res))
 
 
