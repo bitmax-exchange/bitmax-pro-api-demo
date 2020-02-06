@@ -25,7 +25,7 @@ def run(symbol, account, order_id, config, verbose):
 
     ts = utc_timestamp()
     headers = make_auth_headers(ts, "order/status", apikey, secret)
-    url = f"{host}/{group}/{ROUTE_PREFIX}/{account}/order/status/{order_id}"
+    url = f"{host}/{group}/{ROUTE_PREFIX}/{account}/order/status"
     params = dict(orderId = order_id)
 
     if verbose:
