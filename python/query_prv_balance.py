@@ -12,7 +12,8 @@ from util import *
               help='optional, if none, return all assets with non-empty balance. You can specify an asset (e.g. "BTC")')
 @click.option("--account", type=str, default="cash", help="cash (default) or margin")
 @click.option("--config", type=str, default="config.json", help="path to the config file")
-def run(asset, account, config):
+@click.option("--verbose/--no-verbose", default=False)
+def run(asset, account, config, verbose):
 
     btmx_cfg = load_config(get_config_or_default(config))['bitmax']
 
@@ -24,9 +25,11 @@ def run(asset, account, config):
     ts = utc_timestamp()
     headers = make_auth_headers(ts, "balance", apikey, secret)
     url = f"{host}/{group}/{ROUTE_PREFIX}/{account}/balance"
-    print(f"url = {url}")
-
     params = dict(asset=asset)
+
+    if verbose:
+        print(f"Using url: {url}")
+        print(f"params: {params}")
 
     res = requests.get(url, headers=headers, params=params)
     pprint(parse_response(res))

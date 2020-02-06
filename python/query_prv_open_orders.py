@@ -12,7 +12,8 @@ from util import *
 @click.option("--symbol", type=str, default=None)
 @click.option("--account", type=click.Choice(['cash', 'margin']), default="cash", help="account category")
 @click.option("--config", type=str, default="config.json", help="path to the config file")
-def run(symbol, account, config):
+@click.option("--verbose/--no-verbose", default=False)
+def run(symbol, account, config, verbose):
 
     btmx_cfg = load_config(get_config_or_default(config))['bitmax']
 
@@ -27,8 +28,11 @@ def run(symbol, account, config):
 
     params = dict(symbol=symbol)
 
+    if verbose:
+        print(f"Using url: {url}")
+        print(f"params: {params}")
+
     res = requests.get(url, headers=headers, params=params)
-    pprint(res.headers)
     pprint(parse_response(res))
 
 
