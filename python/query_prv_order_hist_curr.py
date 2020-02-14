@@ -12,9 +12,10 @@ from util import *
 @click.option("--account", type=click.Choice(['cash', 'margin', 'futures']), default="cash", help="account category")
 @click.option("--symbol", type=str, default=None)
 @click.option("--n", type=int, default=None)
+@click.option("--executed-only/--no-executed-only", default=False)
 @click.option("--config", type=str, default="config.json", help="path to the config file")
 @click.option("--verbose/--no-verbose", default=False)
-def run(account, symbol, n, config, verbose):
+def run(account, symbol, n, executed_only, config, verbose):
 
     btmx_cfg = load_config(get_config_or_default(config))['bitmax']
 
@@ -26,7 +27,8 @@ def run(account, symbol, n, config, verbose):
     ts = utc_timestamp()
     headers = make_auth_headers(ts, "order/hist/current", apikey, secret)
     url = f"{host}/{group}/{ROUTE_PREFIX}/{account}/order/hist/current"
-    params = dict(symbol = symbol, n = n)
+    
+    params = dict(symbol=symbol, n=n, executedOnly=executed_only)
 
     if verbose:
         print(f"Using url: {url}")
