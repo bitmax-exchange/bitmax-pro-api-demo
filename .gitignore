@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 config.json
 config*.json
 dev.sh
 config/
-=======
 *.json
 dev.sh
->>>>>>> 2fadc8db363ccd2e8553c952d56cebeeabe0b9c1
