@@ -36,9 +36,8 @@ def place_batch_order(orders, api_key, secret, base_url, method=BATCH_METHOD):
     """
     url = "{}/{}".format(base_url, method)
     ts = utc_timestamp()
-    coid = "+".join([order['coid'] for order in orders])
     batch_order = {"orders": orders}
-    headers = make_auth_headers(ts, method, api_key, secret, coid=coid)
+    headers = make_auth_headers(ts, method, api_key, secret)
 
     return requests.post(url, headers=headers, json=batch_order)
 

@@ -7,11 +7,11 @@ import random, string
 
 ROUTE_PREFIX = "api/pro/v1"
 
+
 def check_sys_version():
     if not sys.version_info >= (3,5):
         print("Error: Python 3.5+ required")
         sys.exit(1)
-
 
 
 def load_config(fname): 
