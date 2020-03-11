@@ -1,5 +1,6 @@
 import os 
 import click
+import json
 import requests
 from pprint import pprint
 
@@ -9,7 +10,7 @@ from util import *
 
 @click.command()
 @click.option("--account", type=click.Choice(['cash', 'margin']), default="cash")
-@click.option("--symbol", type=str, default=None, help="if not provided, cancel all orders.")
+@click.option("--symbol", type=str, default="BTMX/USDT", help="if not provided, cancel all orders.")
 @click.option("--config", type=str, default="config.json", help="path to the config file")
 def run(account, symbol, config):
 
@@ -31,7 +32,7 @@ def run(account, symbol, config):
     ts = utc_timestamp()
     headers = make_auth_headers(ts, method, apikey, secret)
 
-    res = requests.delete(url, headers=headers, params=params)
+    res = requests.delete(url, headers=headers, json=params)
     pprint(parse_response(res))
 
 
