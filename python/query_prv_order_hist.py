@@ -39,9 +39,8 @@ def get_hist_upload(base_url, apikey, secret, symbol, method="order/histUpload")
 @click.option("--end_time", type=int, default=utc_timestamp())
 @click.option("--order_type", type=str, default=None)  # "market" or "limit"
 @click.option("--side", type=click.Choice(['buy', 'sell']), default=None)
-@click.option("--order_id", type=str, default=None)
 @click.option("--config", type=str, default="config.json", help="path to the config file")
-def run(account, symbol, start_time, end_time, order_type, side, config, order_id):
+def run(account, symbol, start_time, end_time, order_type, side, config):
 
     btmx_cfg = load_config(get_config_or_default(config))['bitmax']
 
