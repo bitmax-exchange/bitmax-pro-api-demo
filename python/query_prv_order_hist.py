@@ -33,7 +33,7 @@ def get_hist_upload(base_url, apikey, secret, symbol, method="order/histUpload")
     return requests.get(url, headers=headers, params=params)
 
 @click.command()
-@click.option("--account", type=click.Choice(['cash', 'margin', 'futures']), default="cash")
+@click.option("--account", type=click.Choice(['cash', 'margin', 'futures']), default=None)
 @click.option("--symbol", type=str, default=None)
 @click.option("--start_time", type=int, default=0)
 @click.option("--end_time", type=int, default=utc_timestamp())
@@ -55,13 +55,13 @@ def run(account, symbol, start_time, end_time, order_type, side, config):
     res = get_hist_orders(base_url, apikey, secret, account, symbol, start_time, end_time, order_type=order_type, side=side)
     pprint(parse_response(res))
 
-    print("Get history save orders")
-    res = get_hist_save_orders(base_url, apikey, secret, account, symbol, start_time, end_time, order_type=order_type, side=side)
-    pprint(parse_response(res))
-
-    print("Get history upload ")
-    res = get_hist_upload(base_url, apikey, secret, symbol)
-    pprint(parse_response(res))
+    # print("Get history save orders")
+    # res = get_hist_save_orders(base_url, apikey, secret, account, symbol, start_time, end_time, order_type=order_type, side=side)
+    # pprint(parse_response(res))
+    #
+    # print("Get history upload ")
+    # res = get_hist_upload(base_url, apikey, secret, symbol)
+    # pprint(parse_response(res))
 
 if __name__ == "__main__":
     run()
