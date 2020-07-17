@@ -3,8 +3,7 @@ import requests
 from pprint import pprint
 from util import *
 # from util.auth import *
-​
-​
+
 @click.command()
 @click.option("--page", type=int, default=1, help='')
 @click.option("--pagesize", type=int, default=100, help="")
@@ -16,16 +15,16 @@ from util import *
 @click.option("--verbose/--no-verbose", default=False)
 def run(page, pagesize, tx_type, startts, endts, asset, config, verbose):
     btmxCfg = load_config(config)['bitmax']
-​
+
     host   = btmxCfg['https']
     group  = btmxCfg['group']
     apikey = btmxCfg['apikey']
     secret = btmxCfg['secret']
-​
+
     ts = utc_timestamp()
     headers = make_auth_headers(ts, "wallet/transactions", apikey, secret)
     url = f"{host}/api/pro/v1/wallet/transactions"
-​
+
     params = dict(
         page = page,
         pageSize = pagesize,
@@ -38,10 +37,10 @@ def run(page, pagesize, tx_type, startts, endts, asset, config, verbose):
     if verbose: 
         print(f"URL: {url}")
         print(f"Params: {params}")
-​
+
     res = requests.get(url, headers=headers, params = params)
     pprint(parse_response(res))
-​
-​
+
 if __name__ == "__main__":
     run()
+
