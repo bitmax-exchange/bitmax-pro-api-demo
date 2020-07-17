@@ -11,11 +11,11 @@ from util import *
 @click.option("--config", type=str, default=None, help="path to the config file")
 @click.option("--asset", type=str)
 @click.option("--page", type=int)
-@click.option("--pageSize", type=int)
+@click.option("--page-size", type=int)
 @click.option("--txType", type=click.Choice(["deposit", "withdrawal"]), default=None,
               help="transaction type, deposit/withdrawal/both, default is both")
 @click.option('--verbose/--no-verbose', default=False)
-def run(config, asset, page, pagesize, txtype, verbose):
+def run(config, asset, page, page_size, txtype, verbose):
     cfg = load_config(get_config_or_default(config))['bitmax']
 
     host = cfg['https']
@@ -26,7 +26,7 @@ def run(config, asset, page, pagesize, txtype, verbose):
     params = dict(
         asset=asset,
         page=page,
-        pageSize=pagesize,
+        pageSize=page_size,
         txType=txtype,
     )
 
