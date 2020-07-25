@@ -4,3 +4,4 @@ dev.sh
 config/
 *.json
 dev.sh
+sign.py
