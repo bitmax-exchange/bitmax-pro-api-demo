@@ -7,10 +7,10 @@ from util import *
 
 
 @click.command()
-@click.option("--account", type=click.Choice(['cash', 'margin', 'futures']), default="futures")
+@click.option("--account", type=click.Choice(['cash', 'margin', 'futures']), default="cash")
 @click.option("--symbol", type=str)
-@click.option("--start_time", type=int, default=0)
-@click.option("--end_time", type=int, default=utc_timestamp())
+@click.option("--start_time", type=int, default=None)
+@click.option("--end_time", type=int, default=None)
 @click.option("--seq_num", type=int, default=None)  #
 @click.option("--limit", type=int, default=None)
 @click.option("--config", type=str, default="config.json", help="path to the config file")
@@ -23,7 +23,7 @@ def run(account, symbol, start_time, end_time, seq_num, limit, config, verbose):
     apikey = btmx_cfg['apikey']
     secret = btmx_cfg['secret']
 
-    url = f"{host}/{group}/api/pro/v2/order/hist"
+    url = f"{host}/{group}/{ROUTE_PREFIX_V2}/order/hist"
     
     ts = utc_timestamp()
     headers = make_auth_headers(ts, "order/hist", apikey, secret)
