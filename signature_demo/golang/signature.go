@@ -1,23 +1,31 @@
+package main
+
 import (
 	"crypto/hmac"
 	"crypto/sha256"
-	"encoding/hex"
+	"encoding/base64"
+	"fmt"
+	"strings"
+	"strconv"
 )
 
-// Signer signs provided payloads.
-type Signer interface {
-	// Sign signs provided payload and returns encoded string sum.
-	Sign(payload []byte) string
+
+func sign(message string, secret string) string {
+	key := []byte(secret)
+	h := hmac.New(sha256.New, key)
+	h.Write([]byte(message))
+	return base64.StdEncoding.EncodeToString(h.Sum(nil))
 }
 
-// HmacSigner uses HMAC SHA256 for signing payloads.
-type HmacSigner struct {
-	Key []byte
+func main() {
+
+	secret := "98dRnVqbIhriRMZJfax3EvSPRBJrIuZ6J755KcLz6napGUpzmApJmfBY7EY3yYZn"
+	timestamp := 1562952827927000
+	ts := strconv.Itoa(timestamp)
+	apiPath := "user/info"
+	msg := strings.Join([]string{ts, "+", apiPath}, "")
+	fmt.Println("Prehash msg: ", msg)
+	signature := sign(msg, secret)
+	fmt.Println("Signature: ", signature)
 }
 
-// Sign signs provided payload and returns encoded string sum.
-func (hs *HmacSigner) Sign(payload []byte) string {
-	mac := hmac.New(sha256.New, hs.Key)
-	mac.Write(payload)
-	return hex.EncodeToString(mac.Sum(nil))
-}
