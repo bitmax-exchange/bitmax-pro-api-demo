@@ -117,7 +117,7 @@ def run(config):
         print(f"Config file is not specified, use {config}")
     btmxCfg = load_config(config)['bitmax']
 
-    host = btmxCfg['https']
+    host = btmxCfg['wss']
     group = btmxCfg['group']
     apikey = btmxCfg['apikey']
     secret = btmxCfg['secret']
