@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <curl/curl.h>
 #include <string>
+#include <cstring>
 #include <ctime>
 #include <chrono>
 #include <iostream>
